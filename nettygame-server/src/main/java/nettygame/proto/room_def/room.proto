@@ -1,0 +1,37 @@
+option java_package = "protobuf.generate.room";
+option java_outer_classname = "Room";
+
+//C打头的为客户端消息
+
+message CCreateRoom {
+	required string self = 1;					//发送消息者的userid
+	required bool isDuplicateId = 2 ; //roomId是否重复
+	optional string room_setting = 3; //可选的房间配置，为后面的游戏模式做准备
+}
+
+message CJoinRoom {
+	required string self = 1;       //发送消息者的userid
+	required string room = 2;    		//加入的roomid
+}
+
+message COutRoom {
+	required string self = 1;       //发送消息者的userid
+	required string room = 2;				//roomid
+}
+
+//S打头的为服务端消息
+
+message SCreateRoom {
+	required string room = 1;       //创建的roomid，为空为创建失败
+}
+
+message SJoinRoom {
+	required string other_user = 1;    		//另一个人的userid，为空则没有
+}
+
+message SOutRoom {
+	required bool status = 1;       //离开是否成功
+}
+
+
+
