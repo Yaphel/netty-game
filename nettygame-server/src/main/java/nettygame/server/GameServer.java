@@ -8,6 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import nettygame.handler.GameHandler;
+import nettygame.packet.CRC16CheckSum;
 import nettygame.packet.Decoder;
 import nettygame.packet.Encoder;
 
@@ -17,9 +18,6 @@ public class GameServer {
     private  EventLoopGroup bossGroup;//监听SeverChannel
     private  EventLoopGroup workerGroup;//创建所有客户端Channel
     private  ServerBootstrap bootstrap;//netty服务端启动类
-
-    private final int upLimit = 2048;//解码大小限制
-    private final int downLimit = 5120;//编码大小限制
 
     public GameServer() {
         bossGroup = new NioEventLoopGroup();
@@ -32,14 +30,7 @@ public class GameServer {
     }
 
     public void bind(int port) {
-        bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast("decoder", new Decoder(upLimit))//解码器，将二进制字节流解码成游戏自定义协议包Packet
-                        .addLast("server-handler", new GameHandler()) //业务处理handler
-                        .addLast("encoder", new Encoder(downLimit));//编码器，将游戏业务数据编码为二进制字节流下发给客户端
-            }
-        });
+        bootstrap.childHandler(new GameServerInitializer());
         InetSocketAddress address = new InetSocketAddress(port);
         try {
             bootstrap.bind(address).sync();//监听端口
