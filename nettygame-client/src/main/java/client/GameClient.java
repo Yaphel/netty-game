@@ -1,7 +1,8 @@
 package client;
 
+import Util.ProtoManager;
 import com.google.protobuf.Message;
-import handler.ClientHandler;
+import handler.GameHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,7 +24,6 @@ public class GameClient {
     private static GameClient ins = null;
     private static Channel channel;
 
-    private final CRC16CheckSum checkSum = new CRC16CheckSum();
 
     public static GameClient instance(){
         if(ins == null){
@@ -49,7 +49,7 @@ public class GameClient {
             //进行握手
             WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(websocketURI, WebSocketVersion.V13, (String)null, true,httpHeaders);
             channel = bootstrap.connect(websocketURI.getHost(), websocketURI.getPort()).sync().channel();
-            ClientHandler handler = (ClientHandler)channel.pipeline().get("client_handler");
+            GameHandler handler = (GameHandler)channel.pipeline().get("client_handler");
             handler.setHandshaker(handshaker);
             // 通过它构造握手响应消息返回给客户端，
             // 同时将WebSocket相关的编码和解码类动态添加到ChannelPipeline中，用于WebSocket消息的编解码，
