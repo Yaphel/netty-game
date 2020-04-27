@@ -1,17 +1,17 @@
 package handler;
 
-
 import Util.ClassUtils;
+import Util.ProtoManager;
+import Util.ProtoPrinter;
 import com.google.protobuf.Message;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
 import packet.Packet;
-import Util.ProtoManager;
 
 import java.lang.reflect.Method;
 
-public class GameHandler extends SimpleChannelInboundHandler<Object> {
+public class ClientHandler extends SimpleChannelInboundHandler<Object> {
     WebSocketClientHandshaker handshaker;
     ChannelPromise handshakeFuture;
 

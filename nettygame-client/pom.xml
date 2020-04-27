@@ -8,5 +8,20 @@
     <artifactId>nettygame-client</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!--protobuf-->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.11.4</version>
+        </dependency>
+
+        <!--netty-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.48.Final</version>
+        </dependency>
+    </dependencies>
 
 </project>
